@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .big_frame{
+            display: grid;
+            grid-template-columns: 300px 1000px;
+            height: 800px;
+        }
+        .left_frame{
+            background-color: #F5dF4D;
+        }
+        .right_frame{
+            background-color: lightgray;
+        }
+        .list_btn{
+            display: flex;
+            margin-bottom: 0px;
+            padding-left: 20px;
+        }
+        .btns{
+            border: solid 1.5px royalblue;
+            height: 75px;
+            width: 60px;
+            font-size: 18pt;
+            padding: 8px 0px 0px 0px;
+            text-align: center;
+            background-color: lightgray;
+            color: white;
+            border-radius: 0% 30% 0% 0%;
+        }
+        a, a:link{
+            color: white;
+            text-decoration: none;
+        }
+        .chart{
+            background-color: royalblue;
+            width: 252px;
+            height: 580px;
+            margin-left: 20px;
+            overflow: scroll;
+        }
+        .big_name{
+            margin-left: 20px;
+            margin-top: 20px;
+            font-family:'Courier New', Courier, monospace;
+        }
+        .big_map{
+            width: 900px;
+            height: 500px;
+            margin-top: 150px;
+        }
+        .frame1{
+            width: 250px;
+            height: 580px;
+        }
+        .btns:hover{
+            background-color: gray;
+            cursor: pointer;
+        }
+        ol{
+            margin: 0%;
+        }
+        ul{
+            margin-top: 0px;
+        }
+        #level_low, .rhdqor, h3{
+            margin-block-end: 0%;
+            margin-block-start: 0%;
+        }
+        li{
+            cursor: pointer;
+        }
+        #slogan{
+            width: 200px;
+
+        }
+        .footprint{
+            width:30px;
+        }
+        .courselevel_btn{
+            background-color:white;
+        }
+        .pictures{
+            width: 200px;
+            margin-left: 20px;
+        }
+    </style>
+   
+</head>
+<body>
+    
+    <div class="big_frame">
+        <div class="left_frame">
+            <h1 class="big_name"><img id="slogan" src="./images/slogan.png" alt=""></h1>
+            <div class="index">
+                <ul class="list_btn" style="list-style-type: none;">
+                    <label for=""><li class="btns" onclick='top_change()' id="top_btn">인 <br>기</li></label>
+                    <label for=""><li class="btns" onclick='level_change()' id="level_btn">단 <br>계</li></label>
+                    <label for=""><li class="btns" onclick='traffic_change()' id="traffic_btn"> 교 <br>통</li></label>
+                    <label for=""><li class="btns" onclick='notice_change()' id="notice_btn"> 공 <br>지</li></label>
+                    
+                </ul>
+            </div>
+            <div class="chart">
+            </div>
+        </div>
+        <div class="right_frame">
+            <img src="./images/big_map.png" alt="큰 지도" class="big_map">
+        </div>
+    </div>
+</body>
+
+
+
+<script type="text/javascript">
+
+    function top_change(){
+
+    let topBtn = document.querySelector("#top_btn");
+    let mainMap = document.querySelector(".big_map");
+    topBtn.addEventListener("click",top_change);
+    const element = document.querySelector(".chart");
+
+    //mainMap.src="./images/예시.png";
+
+    element.innerHTML 
+    = `<div><ol>
+        <li id="course1" onclick="course_1()">코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        <li>코스 대표사진</li>
+        </ol><div>`;
+}
+    function level_change(){
+
+    let levelBtn = document.querySelector("#level_btn");
+    let mainMap2 = document.querySelector(".big_map");
+    levelBtn.addEventListener("click",level_change);
+    const element2 = document.querySelector(".chart");
+
+    //mainMap2.src="./images/예시.png";
+
+    element2.innerHTML
+    =`
+    <div>
+        <button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
+            <img class="footprint" id="course_low" src="./images/footprint.png" alt=""><br>
+            하코스
+        </button>
+        <button class="courselevel_btn">
+            <img class="footprint" id="course_middle" src="./images/footprint.png" alt=""><br>
+            중코스
+        </button>
+        <button class="courselevel_btn">
+            <img class="footprint" id="course_high" src="./images/footprint.png" alt=""><br>
+            상코스
+        </button>
+    </div>
+    `;
+    }
+
+    function traffic_change(){
+
+    let trafficBtn = document.querySelector("#traffic_btn");
+    let mainMap3 = document.querySelector(".big_map");
+    trafficBtn.addEventListener("click",traffic_change);
+    const element3 = document.querySelector(".chart");
+
+
+    element3.innerHTML
+    =`
+        <div>
+            <p class="rhdqor">(카카오 길찾기)</p>
+            </div>
+    `
+    }
+
+    function notice_change(){
+
+let noticeBtn = document.querySelector("#notice_btn");
+let mainMap4 = document.querySelector(".big_map");
+noticeBtn.addEventListener("click",notice_change);
+const element4 = document.querySelector(".chart");
+
+
+element4.innerHTML
+=`
+<div><p class="rhdqor">오늘은 날씨가 안 좋으니 7코스는 가지 마세요 관광객 여러분~</p></div>
+`
+    }
+
+
+    function course_1(){
+        let course1 = document.querySelector("#course1");
+        const detail = document.querySelector(".chart");
+
+        detail.innerHTML
+        =`
+    <div>
+    <h3>~코스</h3>
+    <ol>
+        <li>관광지</li>
+        <li>관광지</li>
+        <li>관광지</li>
+        <li>관광지</li>
+        <li>관광지</li>
+        <li>관광지</li>
+        <li>관광지</li>
+        <li>관광지</li>
+        <li>관광지</li>
+        <li>관광지</li>
+        <li>관광지</li>
+        <li>관광지</li>
+        <li>관광지</li>
+        <li>관광지</li>
+        <li>관광지</li>
+    </ol>
+    </div>
+        `;
+    }
+
+    function courselowchange(){
+
+    let course_lowbtn = document.querySelector("#course_lowbtn");
+    let map1 = document.querySelector(".big_map");
+    course_lowbtn.addEventListener("click",course_lowbtn);
+    const low = document.querySelector(".chart");
+
+
+    map1.src="./images/low_map.png";
+
+    low.innerHTML
+    =`
+    <div>
+        <button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
+            <img class="footprint" id="course_low" src="./images/footprint.png" alt=""><br>
+            하코스
+        </button>
+        <button class="courselevel_btn">
+            <img class="footprint" id="course_middle" src="./images/footprint.png" alt=""><br>
+            중코스
+        </button>
+        <button class="courselevel_btn">
+            <img class="footprint" id="course_high" src="./images/footprint.png" alt=""><br>
+            상코스
+        </button>
+    </div>
+    <p><b>6코스 : 쇠소깍 - 제주올레 여행자센터 올레 (휠체어 가능)</b></p>
+    </div>
+    <div>
+        <img class="pictures" src="./images/6course1.png" alt="" >
+    </div>
+    <p><b>10-1 코스 : 가파도 - 올레 (휠체어 쌉가능)</b></p>
+    </div>
+    <div>
+        <img class="pictures" src="./images/6course1.png" alt="" >
+    </div>
+    <div>
+        <p><b>14-1 코스 : 저지 - 서광 올레 (휠체어 불가)</b></p>
+    </div>
+    <div>
+        <img class="pictures" src="./images/6course1.png" alt="" >
+    </div>
+    <div>
+        <p><b>21 코스 : 하도 - 종달 올레 (휠체어 불가)</b></p>
+    </div>
+    <div>
+        <img class="pictures" src="./images/21course1.png" alt="" >
+    </div>
+    `;
+    }
+</script>
+</html>
