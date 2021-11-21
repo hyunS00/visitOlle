@@ -11,19 +11,50 @@
     </style>
 </head>
 <body>
-    <div>
-        <button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
-            <img class="footprint" id="course_low" src="./images/footprint_low.png" alt="">
-            하코스
-        </button>
-        <button class="courselevel_btn">
-            <img class="footprint" id="course_middle" src="./images/footprint.png" alt="">
-            중코스
-        </button>
-        <button class="courselevel_btn">
-            <img class="footprint" id="course_high" src="./images/footprint_high.png" alt="">
-            상코스
-        </button>
+    <script>
+function course10_1change(){
+
+let map2222 = document.querySelector(".big_map");
+const course10_1 = document.querySelector(".chart");
+
+
+map2222.src="./images/low_map.png";
+
+course10_1.innerHTML
+=`
+<div>
+        <div>
+            <p><b10-1 코스 : 가파도 - 올레 (휠체어 가능_난이도 하)</b></p>
+        </div>
+            <div>
+                <p>한국의 유인도 중에서 가장 낮은 섬의 가파도 올레. 낮은 섬 가파도는 느리게 걸어도 두 시간이면 충분할 정도로 작다.
+                    </p>
+            </div>
+                <div class="restaurent">
+                    <img src="./images/pin_restaurant.png" alt="" class="pin_images">
+                    <div>
+                        <p>1.~식당</p>
+                    </div>
+                </div>
+            <div>
+                <div class="cafe">
+                    <img src="./images/pin_cafe.png" alt="" class="pin_images">
+                    <div>
+                        <p>1.~~카페</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="hotel">
+                    <img src="./images/pin_Hotel.png" alt="" class="pin_images">
+                    <div>
+                        <p>1.~~숙소</p>
+                    </div>
+                </div>
+            </div>
     </div>
+`}
+    </script>
+
 </body>
 </html>
