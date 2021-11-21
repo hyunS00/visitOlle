@@ -49,9 +49,9 @@
             margin-top: 20px;
             font-family:'Courier New', Courier, monospace;
         }
-        .big_map{
-            width: 900px;
-            height: 83vh;
+        .big_map {
+            width: 1234px;
+            height: 780px;
             margin-top: 150px;
         }
         .frame1{
@@ -89,7 +89,7 @@
             width: 200px;
             margin-left: 20px;
         }
-        #contents_inner{
+        .contents_inner{
             display: grid;
             grid-template-columns: 1.5fr 1fr;
         }
@@ -97,8 +97,12 @@
             color: #999;
             font-weight: bold;
         }
-        #contents{
+        .contents{
             background-color: #eee;
+            cursor: pointer;
+        }
+        .pin_images{
+            width: 50px;
         }
     </style>
    
@@ -124,7 +128,6 @@
             <img src="./images/big_map.png" alt="큰 지도" class="big_map">
         </div>
     </div>
-    <p>commit test</p>
 </body>
 
 
@@ -139,38 +142,60 @@
     const element = document.querySelector(".chart");
 
     
-    //mainMap.src="./images/예시.png";
+    mainMap.src="./images/low_map.png";
 
     element.innerHTML 
-    = `<div><ol>
-        <li id="course1" onclick="course_1()">코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        <li>코스 대표사진</li>
-        </ol><div>`;
+    = `
+    <div class="contents" id="course7" onclick="course7change()">
+    <hr>
+    <div class="contents_header"  onmouseover="course7mouseover()" onmouseout="top_change()">
+        <p><b>07 코스 : 제주올레 여행자센터 - 월평 올레 (휠체어 불가_난이도 중)</b></p>
+    </div>
+    <div class="contents_inner">
+        <div class="inner_left">
+            <p class="hashtag">#제주올레여행자센터 #칠십리시공원 #수봉로 #새연교 #새섬</p>
+        </div>
+        <div class="inner_right">
+            <img class="pictures" src="./images/7course1.png" alt="" >
+        </div>
+    </div>
+    <hr>
+</div>
+
+<div class="contents" id="course10_1" onclick="course10_1change()">
+    <hr>
+    <div class="contents_header"  onmouseover="course10_1mouseover()" onmouseout="top_change()">
+        <p><b>10-1 코스 : 가파도 - 올레 (휠체어 가능_난이도 하)</b></p>
+    </div>
+    <div class="contents_inner">
+        <div class="inner_left">
+            <p class="hashtag">#청보리밭 #가파초등학교 #개엄주리코지 #큰옹진몰 #상동포구</p>
+        </div>
+        <div class="inner_right">
+            <img class="pictures" src="./images/7course1.png" alt="" >
+        </div>
+    </div>
+    <hr>
+</div>
+    `;
 }
+
+function course7mouseover(){
+
+let map_111 = document.querySelector(".big_map");
+
+
+map_111.src="./images/course7.png";
+}
+
+function course10_1mouseover(){
+
+let map_222 = document.querySelector(".big_map");
+
+
+map_222.src="./images/course10_1.png";
+}
+
     function level_change(){
 
     let levelBtn = document.querySelector("#level_btn");
@@ -183,19 +208,19 @@
     element2.innerHTML
     =`
     <div>
-        <button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
-            <img class="footprint" id="course_low" src="C:\Users/aunil/OneDrive/바탕 화면/비짓올레/images/footprint_low.png" alt="">
-            하코스
-        </button>
-        <button class="courselevel_btn">
-            <img class="footprint" id="course_middle" src="./images/footprint.png" alt="">
-            중코스
-        </button>
-        <button class="courselevel_btn">
-            <img class="footprint" id="course_high" src="./images/footprint_high.png" alt="">
-            상코스
-        </button>
-    </div>
+    <button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
+        <img class="footprint" id="course_low" src="./images/footprint_low.png" alt="">
+        하코스
+    </button>
+    <button class="courselevel_btn id="course_middlebtn" onclick="coursemiddlechange()">
+        <img class="footprint" id="course_middle" src="./images/footprint_middle.png" alt="">
+        중코스
+    </button>
+    <button class="courselevel_btn" id="course_hightbtn" onclick="coursehighchange()">
+    <img class="footprint" id="course_high" src="./images/footprint_high.png" alt="">
+    상코스
+    </button>
+</div>
     `;
     }
 
@@ -214,40 +239,96 @@ element4.innerHTML
     }
 
 
-    function course_1(){
-        let course1 = document.querySelector("#course1");
-        const detail = document.querySelector(".chart");
+    function course7change(){
 
-        detail.innerHTML
-        =`
-    <div>
-    <h3>~코스</h3>
-    <ol>
-        <li>관광지</li>
-        <li>관광지</li>
-        <li>관광지</li>
-        <li>관광지</li>
-        <li>관광지</li>
-        <li>관광지</li>
-        <li>관광지</li>
-        <li>관광지</li>
-        <li>관광지</li>
-        <li>관광지</li>
-        <li>관광지</li>
-        <li>관광지</li>
-        <li>관광지</li>
-        <li>관광지</li>
-        <li>관광지</li>
-    </ol>
+let map1111 = document.querySelector(".big_map");
+const course7 = document.querySelector(".chart");
+
+
+map1111.src="./images/low_map.png";
+
+course7.innerHTML
+=`
+<div>
+        <div>
+            <p><b>07 코스 : 제주올레 여행자센터 - 월평 올레 (휠체어 불가_난이도 중)</b></p>
+        </div>
+            <div>
+                <p>제주올레 여행자센터를 출발하여 법환포구를 경유해 월평까지 이어진 해안 올레다. 아름다운 절경을 자랑하는 외돌개와 그보다 더 아름다운 자연생태길인 ‘수봉로’를 만날 수 있다.
+                    </p>
+            </div>
+                <div class="restaurent">
+                    <img src="./images/pin_restaurant.png" alt="" class="pin_images">
+                    <div>
+                        <p>1.~식당</p>
+                    </div>
+                </div>
+            <div>
+                <div class="cafe">
+                    <img src="./images/pin_cafe.png" alt="" class="pin_images">
+                    <div>
+                        <p>1.~~카페</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="hotel">
+                    <img src="./images/pin_Hotel.png" alt="" class="pin_images">
+                    <div>
+                        <p>1.~~숙소</p>
+                    </div>
+                </div>
+            </div>
     </div>
-        `;
-    }
+`}
+
+function course10_1change(){
+
+let map2222 = document.querySelector(".big_map");
+const course10_1 = document.querySelector(".chart");
+
+
+map2222.src="./images/low_map.png";
+
+course10_1.innerHTML
+=`
+<div>
+        <div>
+            <p><b10-1 코스 : 가파도 - 올레 (휠체어 가능_난이도 하)</b></p>
+        </div>
+            <div>
+                <p>한국의 유인도 중에서 가장 낮은 섬의 가파도 올레. 낮은 섬 가파도는 느리게 걸어도 두 시간이면 충분할 정도로 작다.
+                    </p>
+            </div>
+                <div class="restaurent">
+                    <img src="./images/pin_restaurant.png" alt="" class="pin_images">
+                    <div>
+                        <p>1.~식당</p>
+                    </div>
+                </div>
+            <div>
+                <div class="cafe">
+                    <img src="./images/pin_cafe.png" alt="" class="pin_images">
+                    <div>
+                        <p>1.~~카페</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="hotel">
+                    <img src="./images/pin_Hotel.png" alt="" class="pin_images">
+                    <div>
+                        <p>1.~~숙소</p>
+                    </div>
+                </div>
+            </div>
+    </div>
+`}
+
 
     function courselowchange(){
 
-    let course_lowbtn = document.querySelector("#course_lowbtn");
     let map1 = document.querySelector(".big_map");
-    course_lowbtn.addEventListener("click",course_lowbtn);
     const low = document.querySelector(".chart");
 
 
@@ -256,29 +337,29 @@ element4.innerHTML
     low.innerHTML
     =`
     <div>
-        <button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
-            <img class="footprint" id="course_low" src="./images/footprint_low.png" alt=""><br>
-            하코스
-        </button>
-        <button class="courselevel_btn">
-            <img class="footprint" id="course_middle" src="./images/footprint.png" alt=""><br>
-            중코스
-        </button>
-        <button class="courselevel_btn">
-            <img class="footprint" id="course_high" src="./images/footprint_high.png" alt=""><br>
-            상코스
-        </button>
-    
-    <div id="contents">
+    <button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
+        <img class="footprint" id="course_low" src="./images/footprint_low.png" alt="">
+        하코스
+    </button>
+    <button class="courselevel_btn id="course_middlebtn" onclick="coursemiddlechange()">
+        <img class="footprint" id="course_middle" src="./images/footprint_middle.png" alt="">
+        중코스
+    </button>
+    <button class="courselevel_btn" id="course_hightbtn" onclick="coursehighchange()">
+    <img class="footprint" id="course_high" src="./images/footprint_high.png" alt="">
+    상코스
+    </button>
+    </div>
+    <div class="contents" id="course6" onclick="course6change()">
         <hr>
-        <div id="contents_header">
+        <div class="contents_header"  onmouseover="course6mouseover()" onmouseout="courselowchange()">
             <p><b>6코스 : 쇠소깍 - 제주올레 여행자센터 올레 (휠체어 가능)</b></p>
         </div>
-        <div id="contents_inner">
-            <div id="inner_left">
+        <div class="contents_inner">
+            <div class="inner_left">
                 <p class="hashtag">#쇠소깍 #정방폭포 #서귀포매일올레시장 #이중섭거리 #제주올레여행자센터</p>
             </div>
-            <div id="inner_right">
+            <div class="inner_right">
                 <img class="pictures" src="./images/6course1.png" alt="" >
             </div>
         </div>
@@ -286,5 +367,285 @@ element4.innerHTML
     </div>
     `;
     }
+    
+    function course6mouseover(){
+
+    let map_1 = document.querySelector(".big_map");
+
+
+map_1.src="./images/course6.png";
+}
+
+    function coursemiddlechange(){
+
+    let map2 = document.querySelector(".big_map");
+    const middle = document.querySelector(".chart");
+
+
+map2.src="./images/low_map.png";
+
+middle.innerHTML
+=`
+<div>
+    <button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
+        <img class="footprint" id="course_low" src="./images/footprint_low.png" alt="">
+        하코스
+    </button>
+    <button class="courselevel_btn id="course_middlebtn" onclick="coursemiddlechange()">
+        <img class="footprint" id="course_middle" src="./images/footprint_middle.png" alt="">
+        중코스
+    <button class="courselevel_btn" id="course_hightbtn" onclick="coursehighchange()">
+    <img class="footprint" id="course_high" src="./images/footprint_high.png" alt="">
+    상코스
+</button>
+</div>
+<div class="contents" id="course1_1" onclick="course1_1change()">
+    <hr>
+    <div class="contents_header"  onmouseover="course1_1mouseover()" onmouseout="coursemiddlechange()">
+        <p><b>01-1 코스 : 우도 - 올레 (휠체어 불가)</b></p>
+    </div>
+    <div class="contents_inner">
+        <div class="inner_left">
+            <p class="hashtag">#우도 #땅콩 #서빈백사해수욕장 #우도봉 #하고수동해수욕장</p>
+        </div>
+        <div class="inner_right">
+            <img class="pictures" src="./images/1-1course1.png" alt="" >
+        </div>
+    </div>
+    <hr>
+</div>
+`;
+}
+
+function course1_1mouseover(){
+
+let map_1 = document.querySelector(".big_map");
+
+
+map_1.src="./images/course1-1.png";
+}
+
+
+function course6change(){
+
+let map_22 = document.querySelector(".big_map");
+const course6 = document.querySelector(".chart");
+
+
+map_22.src="./images/low_map.png";
+
+course6.innerHTML
+=`
+<div>
+<button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
+    <img class="footprint" id="course_low" src="./images/footprint_low.png" alt="">
+    하코스
+</button>
+<button class="courselevel_btn id="course_middlebtn" onclick="coursemiddlechange()">
+    <img class="footprint" id="course_middle" src="./images/footprint_middle.png" alt="">
+    중코스
+</button>
+<button class="courselevel_btn" id="course_hightbtn" onclick="coursehighchange()">
+    <img class="footprint" id="course_high" src="./images/footprint_high.png" alt="">
+    상코스
+</button>
+</div>
+<div>
+        <div>
+            <p><b>06 코스 : 쇠소깍 - 제주올레 여행자센터 올레 (휠체어 가능)</b></p>
+        </div>
+            <div>
+                <p>쇠소깍 다리를 출발하여 서귀포 시내를 통과, 이중섭거리를 거쳐 제주올레 여행자센터까지 이어지는 해안ㆍ도심 올레다. 난이도 또한 낮은 편이다.
+                    </p>
+            </div>
+                <div class="restaurent">
+                    <img src="./images/pin_restaurant.png" alt="" class="pin_images">
+                    <div>
+                        <p>1.~식당</p>
+                    </div>
+                </div>
+            <div>
+                <div class="cafe">
+                    <img src="./images/pin_cafe.png" alt="" class="pin_images">
+                    <div>
+                        <p>1.~~카페</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="hotel">
+                    <img src="./images/pin_Hotel.png" alt="" class="pin_images">
+                    <div>
+                        <p>1.~~숙소</p>
+                    </div>
+                </div>
+            </div>
+    </div>
+`}
+
+function course9mouseover(){
+
+let map_33 = document.querySelector(".big_map");
+
+
+map_33.src="./images/course9.png";
+}
+
+function coursehighchange(){
+
+let map3 = document.querySelector(".big_map");
+const high = document.querySelector(".chart");
+
+
+map3.src="./images/low_map.png";
+
+high.innerHTML
+=`
+<div>
+<button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
+    <img class="footprint" id="course_low" src="./images/footprint_low.png" alt="">
+    하코스
+</button>
+<button class="courselevel_btn id="course_middlebtn" onclick="coursemiddlechange()">
+    <img class="footprint" id="course_middle" src="./images/footprint_middle.png" alt="">
+    중코스
+</button>
+<button class="courselevel_btn" id="course_hightbtn" onclick="coursehighchange()">
+    <img class="footprint" id="course_high" src="./images/footprint_high.png" alt="">
+    상코스
+</button>
+</div>
+<div class="contents" id="course9" onclick="course9change()">
+<hr>
+<div class="contents_header" onmouseover="course9mouseover()" onmouseout="coursehighchange()">
+    <p><b>09 코스 : 대평 - 화순 올레 (휠체어 불가)</b></p>
+</div>
+<div class="contents_inner">
+    <div class="inner_left">
+        <p class="hashtag">#대평포구 #안덕계곡 #화순금모래해수욕장 #군산오름 #몰질</p>
+    </div>
+    <div class="inner_right">
+        <img class="pictures" src="./images/9course1.png" alt="" >
+    </div>
+</div>
+<hr>
+</div>
+`;
+}
+
+function course1_1change(){
+
+let map22 = document.querySelector(".big_map");
+const course1_1 = document.querySelector(".chart");
+
+
+map22.src="./images/low_map.png";
+
+course1_1.innerHTML
+=`
+<div>
+<button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
+    <img class="footprint" id="course_low" src="./images/footprint_low.png" alt="">
+    하코스
+</button>
+<button class="courselevel_btn id="course_middlebtn" onclick="coursemiddlechange()">
+    <img class="footprint" id="course_middle" src="./images/footprint_middle.png" alt="">
+    중코스
+</button>
+<button class="courselevel_btn" id="course_hightbtn" onclick="coursehighchange()">
+    <img class="footprint" id="course_high" src="./images/footprint_high.png" alt="">
+    상코스
+</button>
+</div>
+<div>
+        <div>
+            <p><b>01-1 코스 : 우도 - 올레 (휠체어 불가)</b></p>
+        </div>
+            <div>
+                <p>땅콩으로 유명한 우도는 푸른 초원과 검은 돌담 그리고 등대가 가장 제주다운 풍경을 연출한다. 우도 올레는 아름다운 우도의 절경을 온몸으로 만끽할 수 있는 코스다. 바닷길과 밭길, 푸른 초원과 우도봉 등 다양한 모습이 있다.
+                    </p>
+            </div>
+                <div class="restaurent">
+                    <img src="./images/pin_restaurant.png" alt="" class="pin_images">
+                    <div>
+                        <p>1.~식당</p>
+                    </div>
+                </div>
+            <div>
+                <div class="cafe">
+                    <img src="./images/pin_cafe.png" alt="" class="pin_images">
+                    <div>
+                        <p>1.~~카페</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="hotel">
+                    <img src="./images/pin_Hotel.png" alt="" class="pin_images">
+                    <div>
+                        <p>1.~~숙소</p>
+                    </div>
+                </div>
+            </div>
+    </div>
+`}
+
+function course9change(){
+
+let map33 = document.querySelector(".big_map");
+const course9 = document.querySelector(".chart");
+
+
+map33.src="./images/low_map.png";
+
+course9.innerHTML
+=`
+<div>
+    <div>
+<button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
+    <img class="footprint" id="course_low" src="./images/footprint_low.png" alt="">
+    하코스
+</button>
+<button class="courselevel_btn id="course_middlebtn" onclick="coursemiddlechange()">
+    <img class="footprint" id="course_middle" src="./images/footprint_middle.png" alt="">
+    중코스
+</button>
+<button class="courselevel_btn" id="course_hightbtn" onclick="coursehighchange()">
+    <img class="footprint" id="course_high" src="./images/footprint_high.png" alt="">
+    상코스
+</button>
+</div>
+        <div>
+            <p><b>09 코스 : 대평 - 화순 올레 (휠체어 불가)</b></p>
+        </div>
+            <div>
+                <p>대평포구에서 시작해 몰질을 지나 군산오름으로 향한다. 하천과 동굴이 있는 안덕계곡으로 이어지는 코스다. 난이도는 상당히 높은 편이다.
+                    </p>
+            </div>
+                <div class="restaurent">
+                    <img src="./images/pin_restaurant.png" alt="" class="pin_images">
+                    <div>
+                        <p>1.~식당</p>
+                    </div>
+                </div>
+            <div>
+                <div class="cafe">
+                    <img src="./images/pin_cafe.png" alt="" class="pin_images">
+                    <div>
+                        <p>1.~~카페</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="hotel">
+                    <img src="./images/pin_Hotel.png" alt="" class="pin_images">
+                    <div>
+                        <p>1.~~숙소</p>
+                    </div>
+                </div>
+            </div>
+    </div>
+`}
+
 </script>
 </html>
