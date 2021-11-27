@@ -1,0 +1,166 @@
+body {
+  margin: 0 0 0 0;
+}
+.big_frame {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  height: 800px;
+}
+.left_frame {
+  background-color: #ffa500;
+}
+.right_frame {
+  background-color: #eee;
+  position: relative;
+}
+.list_btn {
+  display: flex;
+  margin-bottom: 0px;
+  padding-left: 0px;
+  width: 100%;
+  justify-content: space-around;
+}
+.btns {
+  border: solid 1.5px white;
+  height: 45px;
+  width: 130px;
+  font-size: 19pt;
+  font-weight: bold;
+  padding: 8px 0px 0px 0px;
+  text-align: center;
+  background-color: #0080ff;
+  color: white;
+  border: #0080ff;
+}
+a,
+a:link {
+  color: white;
+  text-decoration: none;
+}
+.chart {
+  background-color: #eee;
+  width: 100%;
+  height: 785px;
+  margin-left: 0px;
+  overflow-y: scroll;
+}
+.big_name {
+  margin-left: 20px;
+  margin-top: 20px;
+  font-family: "Courier New", Courier, monospace;
+}
+.big_map {
+  width: 1234px;
+  height: 780px;
+  margin-top: 150px;
+}
+.frame1 {
+  width: 250px;
+  height: 580px;
+}
+.btns:hover {
+  background-color: #1467dd;
+  cursor: pointer;
+}
+ol {
+  margin: 0%;
+}
+ul {
+  margin-top: 0px;
+}
+#level_low,
+.rhdqor,
+h3 {
+  margin-block-end: 0%;
+  margin-block-start: 0%;
+}
+li {
+  cursor: pointer;
+}
+#slogan {
+  width: 200px;
+}
+.footprint {
+  width: 30px;
+}
+.courselevel_btn {
+  background-color: #eee;
+  border: white solid;
+  font-weight: bold;
+  color: black;
+  font-size: 20pt;
+  display: flexbox;
+  justify-content: space-around;
+  cursor: pointer;
+}
+.pictures {
+  width: 200px;
+  margin-left: 20px;
+}
+.contents_inner {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+}
+.hashtag {
+  color: #999;
+  font-weight: bold;
+}
+.contents {
+  background-color: #eee;
+  cursor: pointer;
+}
+.pin_images {
+  width: 50px;
+}
+.dkahffkd {
+  overflow: scroll;
+  height: 300px;
+}
+.restaurent,
+.hotel {
+  background-color: #eee;
+}
+#Menu ul ul {
+  display: none;
+}
+#Menu ul li:hover ul {
+  display: block;
+}
+#Menu ul ul li {
+  float: none;
+}
+.rmfTl {
+  font-size: large;
+}
+
+#map {
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  z-index: 0;
+  overflow: none;
+}
+
+.dkahffkd {
+  overflow-x: hidden;
+  background-color: #eee;
+}
+
+.mapBtn1 {
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  left: 100px;
+}
+.mapBtn2 {
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  left: 200px;
+}
+.mapBtn3 {
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  left: 300px;
+}

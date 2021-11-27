@@ -1,156 +1,37 @@
 <!DOCTYPE html>
 <html lang="kr">
+
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
-    <style>
-        body{
-            margin: 0 0 0 0;
-        }
-        .big_frame{
-            display: grid;
-            grid-template-columns: 1fr 3fr;
-            height: 800px;
-        }
-        .left_frame{
-            background-color: #F5dF4D;
-        }
-        .right_frame{
-            background-color: #eee;
-        }
-        .list_btn{
-            display: flex;
-            margin-bottom: 0px;
-            padding-left: 0px;
-            width: 100%;
-            justify-content: space-around;
-        }
-        .btns{
-            border: solid 1.5px white;
-            height: 45px;
-            width: 110px;
-            font-size: 19pt;
-            font-weight: bold;
-            padding: 8px 0px 0px 0px;
-            text-align: center;
-            background-color: #258fff;
-            color: white;
-            border: #258fff;
-        }
-        a, a:link{
-            color: white;
-            text-decoration: none;
-        }
-        .chart{
-            background-color: white;
-            width: 100%;
-            height: 785px;
-            margin-left: 0px;
-            overflow-y: scroll;
-        }
-        .big_name{
-            margin-left: 20px;
-            margin-top: 20px;
-            font-family:'Courier New', Courier, monospace;
-        }
-        .big_map {
-            width: 1234px;
-            height: 780px;
-            margin-top: 150px;
-        }
-        .frame1{
-            width: 250px;
-            height: 580px;
-        }
-        .btns:hover{
-            background-color: #1467dd;
-            cursor: pointer;
-        }
-        ol{
-            margin: 0%;
-        }
-        ul{
-            margin-top: 0px;
-        }
-        #level_low, .rhdqor, h3{
-            margin-block-end: 0%;
-            margin-block-start: 0%;
-        }
-        li{
-            cursor: pointer;
-        }
-        #slogan{
-            width: 200px;
+    <title>Visit올래</title>
+    <link rel="stylesheet" href="./main.css">
 
-        }
-        .footprint{
-            width:30px;
-        }
-        .courselevel_btn{
-            background-color:#eee;
-            border:white solid ;
-            font-weight: bold;
-            color: black;
-            font-size: 20pt;
-            display: flexbox;
-            justify-content: space-around;
-            cursor: pointer;
-        }
-        .pictures{
-            width: 200px;
-            margin-left: 20px;
-        }
-        .contents_inner{
-            display: grid;
-            grid-template-columns: 1.5fr 1fr;
-        }
-        .hashtag{
-            color: #999;
-            font-weight: bold;
-        }
-        .contents{
-            background-color: #eee;
-            cursor: pointer;
-        }
-        .pin_images{
-            width: 50px;
-        }
-        .dkahffkd{
-            overflow: scroll;
-            height: 300px;
-        }
-        .restaurent, .hotel{
-            background-color:#eee ;
-        }
-        #Menu ul ul{
-        display: none;
-    }
-    #Menu ul li:hover ul{
-        display: block;
-    }
-    #Menu ul ul li{
-        float:none;
-    }
-    .rmfTl{
-        font-size: large;
-    }
-    </style>
-   
 </head>
+<script type="text/javascript"
+    src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=1d8aff80b796d6f97bffb6a5636ac5bf&libraries=services"></script>
+
 <body>
-    
+
 
 
     <div class="big_frame">
         <div class="left_frame">
             <h1 class="big_name"><img id="slogan" src="./images/slogan.png" alt=""></h1>
-            <div class="index">
+            <div class=" index">
                 <ul class="list_btn" style="list-style-type: none;">
-                    <label for=""><li class="btns" onclick='top_change()' id="top_btn">인기</li></label>
-                    <label for=""><li class="btns" onclick='level_change()' id="level_btn">단계</li></label>
-                    <label for=""><li class="btns" id="traffic_btn"> <a href="https://map.kakao.com/">교통</a></li></label>
-                    <label for=""><li class="btns" onclick='notice_change()' id="notice_btn"> 공지</li></label>
-                    
+                    <label for="">
+                        <li class="btns" onclick='top_change()' id="top_btn">인기</li>
+                    </label>
+                    <label for="">
+                        <li class="btns" onclick='level_change()' id="level_btn">단계</li>
+                    </label>
+                    <label for="">
+                        <li class="btns" id="traffic_btn"> <a href="https://map.kakao.com/">교통</a></li>
+                    </label>
+                    <label for="">
+                        <li class="btns" onclick='notice_change()' id="notice_btn"> 공지</li>
+                    </label>
+
                 </ul>
             </div>
             <div class="chart">
@@ -161,22 +42,123 @@
         </div>
     </div>
 </body>
+<script>
+    const startImage = "./images/start.png";
+    const endImage = "./images/end.png"
+    let restPositions;
+    let hotelPositions;
+    let tourePositions;
+    //시작점과 끝점 마커 생성
+    const createStartEnd = (xPosition, yPosition, startOrEnd, image, map) => {
+        var Image = new kakao.maps.MarkerImage(image, new kakao.maps.Size(160, 80));
 
+        // 마커를 생성합니다
+        var marker = new kakao.maps.Marker({
+            map: map, // 마커를 표시할 지도
+            position: new kakao.maps.LatLng(yPosition, xPosition), // 마커를 표시할 위치
+            title: startOrEnd, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+            image: Image // 마커 이미지 
+        });
+    }
+
+    let setMapCourse = (center, viewLevel, courseRestPosition, coursehotelPosition,
+        mapContainer, startPosition, endPosition, ) => {
+        let mapOption = {
+            center: new kakao.maps.LatLng(center[0], center[1]), // 지도의 중심좌표
+            level: viewLevel, // 지도의 확대 레벨
+            mapTypeId: kakao.maps.MapTypeId.ROADMAP // 지도종류
+        };
+
+        // 지도를 생성한다 
+        map = new kakao.maps.Map(mapContainer, mapOption);
+
+        restPositions = courseRestPosition;
+        hotelPositions = coursehotelPosition;
+        createStartEnd(startPosition[1], startPosition[0], "시작", startImage, map);
+        createStartEnd(endPosition[1], endPosition[0], "도착", endImage, map);
+    }
+
+    let restaurantMarkers = [];
+    let hotelMarkers = [];
+    let toureMarkers = [];
+    // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+    const makeOverListener = (map, marker, infowindow) => {
+        return () => infowindow.open(map, marker);
+    }
+
+    // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+    const makeOutListener = (infowindow) => {
+        return () => infowindow.close();
+    }
+
+    // 마커들을 만들고 리스너를 넣어주는 함수
+    // 위치정보, 이미지, 마커들을 담을 배열
+    const createMarkers = (positionList, image, markerList) => {
+        for (var i = 0; i < positionList.length; i++) {
+            // 마커 이미지의 이미지 크기 입니다
+            var imageSize = new kakao.maps.Size(80, 80);
+
+            // 마커 이미지를 생성합니다    
+            var Image = new kakao.maps.MarkerImage(image, imageSize);
+
+            // 마커를 생성합니다
+            var marker = new kakao.maps.Marker({
+                map: map, // 마커를 표시할 지도
+                position: positionList[i].latlng, // 마커를 표시할 위치
+                title: positionList[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                image: Image // 마커 이미지 
+            });
+
+            // 마커에 표시할 인포윈도우를 생성합니다 
+            var infowindow = new kakao.maps.InfoWindow({
+                content: positionList[i].content // 인포윈도우에 표시할 내용
+            });
+            kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+            kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+
+            markerList.push(marker);
+            marker.setMap(null);
+        }
+    }
+
+    // 배열에 추가된 마커들을 지도에 표시하거나 삭제하는 함수
+    const setMarkers = (map, makerList) => {
+        console.log(makerList[0].setMap);
+        for (var i = 0; i < makerList.length; i++) {
+            makerList[i].setMap(map);
+        }
+    }
+    // 버튼에다가 setMarker 넣어준다
+    const setButton = (e, makersList) => {
+        if (e.target.value == "true") {
+            e.target.value = "false";
+            setMarkers(map, makersList);
+        } else {
+            e.target.value = "true";
+            setMarkers(null, makersList);
+        }
+    }
+</script>
 
 <script type="text/javascript">
+    function reload() {
+        location.reload();
+    }
+    let bigName = document.querySelector(".big_name");
+    bigName.addEventListener("click", reload);
 
-    function top_change(){
 
-    let topBtn = document.querySelector("#top_btn");
-    let mainMap = document.querySelector(".big_map");
-    topBtn.addEventListener("click",top_change);
-    const element = document.querySelector(".chart");
+    function top_change() {
 
-    
-    mainMap.src="./images/all.png";
+        let topBtn = document.querySelector("#top_btn");
+        let mainMap = document.querySelector(".big_map");
+        topBtn.addEventListener("click", top_change);
+        const element = document.querySelector(".chart");
 
-    element.innerHTML 
-    = `
+
+        mainMap.src = "./images/all.png";
+
+        element.innerHTML = `
 <div class="contents" id="course10_1" onclick="course10_1change()">
     <hr>
     <div class="contents_header"  onmouseover="course10_1mouseover()" onmouseout="top_change()">
@@ -586,35 +568,34 @@
 
 
 `
-}
+    }
 
-function course7mouseover(){
+    function course7mouseover() {
 
-let map_111 = document.querySelector(".big_map");
-
-
-map_111.src="./images/course7.png";
-}
-
-function course10_1mouseover(){
-
-let map_222 = document.querySelector(".big_map");
+        let map_111 = document.querySelector(".big_map");
 
 
-map_222.src="./images/course10_1.png";
-}
+        map_111.src = "./images/course7.png";
+    }
 
-    function level_change(){
+    function course10_1mouseover() {
 
-    let levelBtn = document.querySelector("#level_btn");
-    let mainMap2 = document.querySelector(".big_map");
-    levelBtn.addEventListener("click",level_change);
-    const element2 = document.querySelector(".chart");
+        let map_222 = document.querySelector(".big_map");
 
-    //mainMap2.src="./images/예시.png";
 
-    element2.innerHTML
-    =`
+        map_222.src = "./images/course10_1.png";
+    }
+
+    function level_change() {
+
+        let levelBtn = document.querySelector("#level_btn");
+        let mainMap2 = document.querySelector(".big_map");
+        levelBtn.addEventListener("click", level_change);
+        const element2 = document.querySelector(".chart");
+
+        //mainMap2.src="./images/예시.png";
+
+        element2.innerHTML = `
     <div>
     <button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
         <img class="footprint" id="course_low" src="./images/footprint_low.png" alt="">
@@ -632,16 +613,15 @@ map_222.src="./images/course10_1.png";
     `;
     }
 
-    function notice_change(){
+    function notice_change() {
 
-let noticeBtn = document.querySelector("#notice_btn");
-let mainMap4 = document.querySelector(".big_map");
-noticeBtn.addEventListener("click",notice_change);
-const element4 = document.querySelector(".chart");
+        let noticeBtn = document.querySelector("#notice_btn");
+        let mainMap4 = document.querySelector(".big_map");
+        noticeBtn.addEventListener("click", notice_change);
+        const element4 = document.querySelector(".chart");
 
 
-element4.innerHTML
-=`
+        element4.innerHTML = `
 <div id="Menu">
     <ul class="rhdqor" id="rhdwl1">
         <li>
@@ -706,16 +686,15 @@ element4.innerHTML
     }
 
 
-    function course7change(){
+    function course7change() {
 
-let map1111 = document.querySelector(".big_map");
-const course7 = document.querySelector(".chart");
+        let map1111 = document.querySelector(".big_map");
+        const course7 = document.querySelector(".chart");
 
 
-map1111.src="./images/low_map.png";
+        map1111.src = "./images/low_map.png";
 
-course7.innerHTML
-=`
+        course7.innerHTML = `
 <div>
         <div>
             <p><b>07 코스 : 제주올레 여행자센터 - 월평 올레 (휠체어 불가_난이도 중)</b></p>
@@ -752,27 +731,228 @@ course7.innerHTML
                         <hr>
                     </div>
                 </div>
-            <div>
-                <img src="./images/pin_Hotel2.png" alt="" class="pin_images">
+                <img src="./images/pin_hotel2.png" alt="" class="pin_images">
                 <div class="hotel">
                     <div class="dkahffkd">
-                        <p>1.~~숙소</p>
+                        <p class="rmfTl"><b>1. 에띠에리조트</b></p>
+                        <p>제주특별자치도 서귀포시 이어도로 738</p>
+                        <img class="pictures" src="./images/7h1.png" alt="">
+                        <img class="pictures" src="./images/7h2.png" alt="">
+                        <hr>
+                        <p class="rmfTl"><b>2. 블루펄 리조트</b></p>
+                        <p>제주특별자치도 서귀포시 태평로92번길 35</p>
+                        <img class="pictures" src="./images/7h3.png" alt="">
+                        <img class="pictures" src="./images/7h4.png" alt="">
+                        <hr>
+                    </div>
+</div>
+`
+    }
+
+
+    function course7change() {
+
+        let map1111 = document.querySelector(".big_map");
+        const course7 = document.querySelector(".chart");
+
+
+        map1111.src = "./images/low_map.png";
+
+        course7.innerHTML = `
+<div>
+        <div>
+            <p><b>07 코스 : 제주올레 여행자센터 - 월평 올레 (휠체어 불가_난이도 중)</b></p>
+        </div>
+            <div>
+                <p>제주올레 여행자센터를 출발하여 법환포구를 경유해 월평까지 이어진 해안 올레다. 아름다운 절경을 자랑하는 외돌개와 그보다 더 아름다운 자연생태길인 ‘수봉로’를 만날 수 있다.
+                    </p>
+            </div>
+            <img src="./images/pin_restaurant2.png" alt="" class="pin_images">
+                <div class="restaurent">
+                    <div class="dkahffkd">
+                        <p class="rmfTl"><b>1. 러디스</b></p>
+                        <p>제주 서귀포시 강정동 708</p>
+                        <img class="pictures" src="./images/07.png" alt="">
+                        <img class="pictures" src="./images/07_2.png" alt="">
+                        <img class="pictures" src="./images/07_3.png" alt="">
+                        <hr>
+                        <p class="rmfTl"><b>2. 솔루나</b></p>
+                        <p>제주 서귀포시 막숙포로 116 1층</p>
+                        <img class="pictures" src="./images/07_4.png" alt="">
+                        <img class="pictures" src="./images/07_5.png" alt="">
+                        <img class="pictures" src="./images/07_6.png" alt="">
+                        <hr>
+                        <p class="rmfTl"><b>3. 꿀맛</b></p>
+                        <p>제주 서귀포시 막숙포로 95 1층</p>
+                        <img class="pictures" src="./images/07_7.png" alt="">
+                        <img class="pictures" src="./images/07_8.png" alt="">
+                        <img class="pictures" src="./images/07_9.png" alt="">
+                        <hr>
+                        <p class="rmfTl"><b>4. 영육일삼</b></p>
+                        <p>제주 서귀포시 이어도로 679 1층</p>
+                        <img class="pictures" src="./images/07_10.png" alt="">
+                        <img class="pictures" src="./images/07_11.png" alt="">
+                        <hr>
                     </div>
                 </div>
-            </div>
-    </div>
-`}
+                <img src="./images/pin_hotel2.png" alt="" class="pin_images">
+                <div class="hotel">
+                    <div class="dkahffkd">
+                        <p class="rmfTl"><b>1. 에띠에리조트</b></p>
+                        <p>제주특별자치도 서귀포시 이어도로 738</p>
+                        <img class="pictures" src="./images/7h1.png" alt="">
+                        <img class="pictures" src="./images/7h2.png" alt="">
+                        <hr>
+                        <p class="rmfTl"><b>2. 블루펄 리조트</b></p>
+                        <p>제주특별자치도 서귀포시 태평로92번길 35</p>
+                        <img class="pictures" src="./images/7h3.png" alt="">
+                        <img class="pictures" src="./images/7h4.png" alt="">
+                        <hr>
+                    </div>
+</div>
+`
+    }
 
-function course10_1change(){
+    function course10_1change() {
 
-let map2222 = document.querySelector(".big_map");
-const course10_1 = document.querySelector(".chart");
+        let map2222 = document.querySelector(".right_frame");
+        const course10_1 = document.querySelector(".chart");
+        //여기 버튼부분
+        map2222.innerHTML = `
+        <button id="restaurant" class="mapBtn1" value="true">숙박</button>
+        <button id="hotel" class="mapBtn2" value="true">숙박</button>
+        <button id="toure" class="mapBtn3" value="true">관광지</button>
+            <div id="map"></div>`;
+        let mapContainer = document.getElementById('map');
+        const course10_1Data = {
+            centerPosition: [33.17037479735974, 126.27147358888445],
+            viewLevel: 4,
+            startPosition: [33.17454204770053, 126.27097778398652],
+            endPosition: [33.167192834756314, 126.27428155945515],
+            restPositions: [{
+                    content: '<div>블랑로쉐</div>',
+                    latlng: new kakao.maps.LatLng(33.17432304377187, 126.27130123696304)
+                }, {
+                    content: '<div>가파도터미널카페</div>',
+                    latlng: new kakao.maps.LatLng(33.174470354516416, 126.27066745864921)
+                }, {
+                    content: '<div>가파리 212</div>',
+                    latlng: new kakao.maps.LatLng(33.174203572379675, 126.27053029137811)
+                }, {
+                    content: '<div>가파도로와 212</div>',
+                    latlng: new kakao.maps.LatLng(33.17262593430135, 126.26825976308152)
+                }, {
+                    content: '<div>가파도봄날에</div>',
+                    latlng: new kakao.maps.LatLng(33.1695814734954, 126.27031128090417)
+                },
+                {
+                    content: '<div>가파도청보리밥상</div>',
+                    latlng: new kakao.maps.LatLng(33.17427851026572, 126.27024019495725)
+                },
+                {
+                    content: '<div>올레길식당</div>',
+                    latlng: new kakao.maps.LatLng(33.17249580524929, 126.26759613629213)
+                },
+                {
+                    content: '<div>가파도김진현핫도그</div>',
+                    latlng: new kakao.maps.LatLng(33.17306442161541, 126.26923174567379)
+                },
+                {
+                    content: '<div>부성식당</div>',
+                    latlng: new kakao.maps.LatLng(33.16767864633671, 126.27487254525983)
+                },
+            ],
+            hotelPositions: [{
+                    content: '<div>가파도바다별장</div>',
+                    latlng: new kakao.maps.LatLng(33.17432391707239, 126.27106536059307)
+                },
+                {
+                    content: '<div>가파도바다별장</div>',
+                    latlng: new kakao.maps.LatLng(33.17432391707239, 126.27106536059307)
+                },
+                {
+                    content: '<div>가파도상동펜션</div>',
+                    latlng: new kakao.maps.LatLng(33.174173068936895, 126.26994087228786)
+                },
+                {
+                    content: '<div>가파리 212</div>',
+                    latlng: new kakao.maps.LatLng(33.17394986542728, 126.2699320016237)
+                },
+                {
+                    content: '<div>가파도민박</div>',
+                    latlng: new kakao.maps.LatLng(33.16634897443792, 126.27297794894004)
+                },
+                {
+                    content: '<div>가파도하우스J민박</div>',
+                    latlng: new kakao.maps.LatLng(33.165823146788235, 126.272869726128)
+                },
+            ],
+            photoPosition: [{
+                    content: `<div>상동우물</div>
+                        <img src="./images/sangdong.png"></img>`,
+                    latlng: new kakao.maps.LatLng(33.17212100908006, 126.26940843138581)
+                },
+                {
+                    content: `<div>가파초등학교</div>
+                        <img src="./images/elementschool.png"></img>`,
+                    latlng: new kakao.maps.LatLng(33.169173556059164, 126.27032270120654)
+                },
+                {
+                    content: `<div>가파마을제단</div>
+                        <img src="./images/temp.png"></img>`,
+                    latlng: new kakao.maps.LatLng(33.168663482780055, 126.2787211872966)
+                },
+                {
+                    content: `<div>큰왕돌</div>
+                        <img src="./images/bigstone.png"></img>`,
+                    latlng: new kakao.maps.LatLng(33.17217750259103, 126.26636586187676)
+                },
+            ],
+            tourePositions: [{
+                    content: `<div>산방산</div>
+                        <img src="./images/sanbangsan.jpg"></img>`,
+                    latlng: new kakao.maps.LatLng(33.241559352601264, 126.31337236145453)
+                },
+                {
+                    content: `<div>사계해변</div>
+                        <img src="./images/sagye.jpg"></img>`,
+                    latlng: new kakao.maps.LatLng(33.228635336775476, 126.30860822783661)
+                },
+                {
+                    content: `<div>송악산</div>
+                        <img src="./images/songak.jpg"></img>`,
+                    latlng: new kakao.maps.LatLng(33.19908028050677, 126.28979949227114)
+                },
+            ],
+        }
 
+        setMapCourse(course10_1Data.centerPosition, course10_1Data.viewLevel, course10_1Data.restPositions,
+            course10_1Data
+            .hotelPositions, mapContainer, course10_1Data.startPosition, course10_1Data.endPosition);
+        for (var i = 0; i < course10_1Data.photoPosition.length; i++) {
+            // 마커 이미지의 이미지 크기 입니다
+            var imageSize = new kakao.maps.Size(80, 80);
 
-map2222.src="./images/low_map.png";
+            // 마커 이미지를 생성합니다    
+            var Image = new kakao.maps.MarkerImage('./images/photoSpot.png', imageSize);
 
-course10_1.innerHTML
-=`
+            // 마커를 생성합니다
+            var marker = new kakao.maps.Marker({
+                map: map, // 마커를 표시할 지도
+                position: course10_1Data.photoPosition[i].latlng, // 마커를 표시할 위치
+                title: course10_1Data.photoPosition[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                image: Image // 마커 이미지 
+            });
+
+            // 마커에 표시할 인포윈도우를 생성합니다 
+            var infowindow = new kakao.maps.InfoWindow({
+                content: course10_1Data.photoPosition[i].content // 인포윈도우에 표시할 내용
+            });
+            kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+            kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+        }
+
+        course10_1.innerHTML = `
 <div>
         <div>
             <p><b10-1 코스 : 가파도 - 올레 (휠체어 가능_난이도 하)</b></p>
@@ -825,19 +1005,39 @@ course10_1.innerHTML
                     </div>
                 </div>
 
-`}
+`
+        createMarkers(course10_1Data.restPositions, "./images/restaurant.png", restaurantMarkers);
+        createMarkers(course10_1Data.hotelPositions, "./images/hotel.png", hotelMarkers);
+        createMarkers(course10_1Data.tourePositions, "./images/touristSpot.png", toureMarkers);
+
+        const restButton = document.getElementById("restaurant");
+        restButton.addEventListener("click", (e) => {
+            setButton(e, restaurantMarkers);
+        });
+
+        const cafeButton = document.getElementById("hotel");
+        cafeButton.addEventListener("click", (e) => {
+            setButton(e, hotelMarkers);
+        });
+
+        const toureButton = document.getElementById("toure");
+        toureButton.addEventListener("click", (e) => {
+            setButton(e, toureMarkers);
+        });
 
 
-    function courselowchange(){
-
-    let map1 = document.querySelector(".big_map");
-    const low = document.querySelector(".chart");
+    }
 
 
-    map1.src="./images/low.png";
+    function courselowchange() {
 
-    low.innerHTML
-    =`
+        let map1 = document.querySelector(".big_map");
+        const low = document.querySelector(".chart");
+
+
+        map1.src = "./images/low.png";
+
+        low.innerHTML = `
     <div>
     <button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
         <img class="footprint" id="course_low" src="./images/footprint_low.png" alt="">
@@ -917,25 +1117,24 @@ course10_1.innerHTML
 
     `;
     }
-    
-    function course6mouseover(){
 
-    let map_1 = document.querySelector(".big_map");
+    function course6mouseover() {
 
-
-map_1.src="./images/course6.png";
-}
-
-    function coursemiddlechange(){
-
-    let map2 = document.querySelector(".big_map");
-    const middle = document.querySelector(".chart");
+        let map_1 = document.querySelector(".big_map");
 
 
-map2.src="./images/middle.png";
+        map_1.src = "./images/course6.png";
+    }
 
-middle.innerHTML
-=`
+    function coursemiddlechange() {
+
+        let map2 = document.querySelector(".big_map");
+        const middle = document.querySelector(".chart");
+
+
+        map2.src = "./images/middle.png";
+
+        middle.innerHTML = `
 <div>
     <button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
         <img class="footprint" id="course_low" src="./images/footprint_low.png" alt="">
@@ -1254,27 +1453,83 @@ middle.innerHTML
 
 
 `;
-}
+    }
 
-function course1_1mouseover(){
+    function course1_1mouseover() {
 
-let map_1 = document.querySelector(".big_map");
-
-
-map_1.src="./images/course1-1.png";
-}
+        let map_1 = document.querySelector(".big_map");
 
 
-function course6change(){
-
-let map_22 = document.querySelector(".big_map");
-const course6 = document.querySelector(".chart");
+        map_1.src = "./images/course1-1.png";
+    }
 
 
-map_22.src="./images/low_map.png";
+    function course6change() {
 
-course6.innerHTML
-=`
+        let map_22 = document.querySelector(".big_map");
+        const course6 = document.querySelector(".chart");
+
+
+        map_22.src = "./images/low_map.png";
+
+        course6.innerHTML = `
+<div>
+<button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
+    <img class="footprint" id="course_low" src="./images/footprint_low.png" alt="">
+    하코스
+</button>
+<button class="courselevel_btn id="course_middlebtn" onclick="coursemiddlechange()">
+    <img class="footprint" id="course_middle" src="./images/footprint_middle.png" alt="">
+    중코스
+</button>
+<button class="courselevel_btn" id="course_hightbtn" onclick="coursehighchange()">
+    <img class="footprint" id="course_high" src="./images/footprint_high.png" alt="">
+    상코스
+</button>
+</div>
+<img src="./images/pin_restaurant2.png" alt="" class="pin_images">
+                <div class="restaurent2">
+                    <div class="dkahffkd">
+                        <p class="rmfTl"><b>1. 서귀포 고기국수</b></p>
+                        <p>제주 서귀포시 소암로12번길 21</p>
+                        <img class="pictures" src="./images/6_7.png" alt="">
+                        <hr>
+                    </div>
+                </div>
+            <img src="./images/pin_hotel2.png" alt="" class="pin_images">
+                <div class="hotel">
+                    <div class="dkahffkd">
+                        <p class="rmfTl"><b>1. 호텔 와인제주</b></p>
+                        <p>제주특별자치도 서귀포시 칠십리로 87</p>
+                        <img class="pictures" src="./images/6_1.png" alt="">
+                        <img class="pictures" src="./images/6_2.png" alt="">
+                        <hr>
+                        <p class="rmfTl"><b>2. 제주하늘공원</b></p>
+                        <p>제주특별자치도 서귀포시 칠십리로394번길 8-4</p>
+                        <img class="pictures" src="./images/6_3.png" alt="">
+                        <img class="pictures" src="./images/6_4.png" alt="">
+                        <hr>
+                        <p class="rmfTl"><b>3. 바다해호텔</b></p>
+                        <p>제주특별자치도 서귀포시 천지연로 3-1</p>
+                        <img class="pictures" src="./images/6_5.png" alt="">
+                        <img class="pictures" src="./images/6_6.png" alt="">
+                        <hr>
+                    </div>
+                </div>
+    </div>
+`
+    }
+
+
+    function course6change() {
+
+        let map_22 = document.querySelector(".big_map");
+        const course6 = document.querySelector(".chart");
+
+
+        map_22.src = "./images/low_map.png";
+
+        course6.innerHTML = `
 <div>
 <button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
     <img class="footprint" id="course_low" src="./images/footprint_low.png" alt="">
@@ -1332,26 +1587,26 @@ course6.innerHTML
                     </div>
                 </div>
     </div>
-`}
+`
+    }
 
-function course9mouseover(){
+    function course9mouseover() {
 
-let map_33 = document.querySelector(".big_map");
-
-
-map_33.src="./images/course9.png";
-}
-
-function coursehighchange(){
-
-let map3 = document.querySelector(".big_map");
-const high = document.querySelector(".chart");
+        let map_33 = document.querySelector(".big_map");
 
 
-map3.src="./images/high.png";
+        map_33.src = "./images/course9.png";
+    }
 
-high.innerHTML
-=`
+    function coursehighchange() {
+
+        let map3 = document.querySelector(".big_map");
+        const high = document.querySelector(".chart");
+
+
+        map3.src = "./images/high.png";
+
+        high.innerHTML = `
 <div>
 <button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
     <img class="footprint" id="course_low" src="./images/footprint_low.png" alt="">
@@ -1408,18 +1663,17 @@ high.innerHTML
         <hr>
     </div>
 `;
-}
+    }
 
-function course1_1change(){
+    function course1_1change() {
 
-let map22 = document.querySelector(".big_map");
-const course1_1 = document.querySelector(".chart");
+        let map22 = document.querySelector(".big_map");
+        const course1_1 = document.querySelector(".chart");
 
 
-map22.src="./images/low_map.png";
+        map22.src = "./images/low_map.png";
 
-course1_1.innerHTML
-=`
+        course1_1.innerHTML = `
 <div>
 <button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
     <img class="footprint" id="course_low" src="./images/footprint_low.png" alt="">
@@ -1441,21 +1695,25 @@ course1_1.innerHTML
             <div>
                 <p>땅콩으로 유명한 우도는 푸른 초원과 검은 돌담 그리고 등대가 가장 제주다운 풍경을 연출한다. 우도 올레는 아름다운 우도의 절경을 온몸으로 만끽할 수 있는 코스다. 바닷길과 밭길, 푸른 초원과 우도봉 등 다양한 모습이 있다.
                     </p>
-            </div>
+                <img src="./images/pin_restaurant2.png" alt="" class="pin_images">
                 <div class="restaurent">
-                    <img src="./images/pin_restaurant.png" alt="" class="pin_images">
-                    <div>
-                        <p>1.~식당</p>
+                    <div class="dkahffkd">
+                        <p class="rmfTl"><b>1. 섬소나이</b></p>
+                        <p>제주특별자치도 제주시 우도면 우도해안길 814</p>
+                        <img class="pictures" src="./images/1_1png" alt="">
+                        <img class="pictures" src="./images/1_2.png" alt="">
+                        <hr>
+                        <p class="rmfTl"><b>2. 블랑로쉐</b></p>
+                        <p>제주특별자치도 제주시 우도면 우도해안길 783</p>
+                        <img class="pictures" src="./images/1_3.png" alt="">
+                        <img class="pictures" src="./images/1_4.png" alt="">
+                        <hr>
+                        <p class="rmfTl"><b>3. 우도왕자이야기</b></p>
+                        <p>제주특별자치도 제주시 우도면 우도해안길 252</p>
+                        <img class="pictures" src="./images/1_5.png" alt="">
+                        <hr>
                     </div>
                 </div>
-            <div>
-                <div class="cafe">
-                    <img src="./images/pin_cafe.png" alt="" class="pin_images">
-                    <div>
-                        <p>1.~~카페</p>
-                    </div>
-                </div>
-            </div>
             <div>
                 <img src="./images/pin_hotel2.png" alt="" class="pin_images">
                 <div class="hotel">
@@ -1478,18 +1736,92 @@ course1_1.innerHTML
                 </div>
             </div>
     </div>
-`}
+`
+    }
 
-function course9change(){
+    function course1_1change() {
 
-let map33 = document.querySelector(".big_map");
-const course9 = document.querySelector(".chart");
+        let map22 = document.querySelector(".big_map");
+        const course1_1 = document.querySelector(".chart");
 
 
-map33.src="./images/low_map.png";
+        map22.src = "./images/low_map.png";
 
-course9.innerHTML
-=`
+        course1_1.innerHTML = `
+<div>
+<button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
+    <img class="footprint" id="course_low" src="./images/footprint_low.png" alt="">
+    하코스
+</button>
+<button class="courselevel_btn id="course_middlebtn" onclick="coursemiddlechange()">
+    <img class="footprint" id="course_middle" src="./images/footprint_middle.png" alt="">
+    중코스
+</button>
+<button class="courselevel_btn" id="course_hightbtn" onclick="coursehighchange()">
+    <img class="footprint" id="course_high" src="./images/footprint_high.png" alt="">
+    상코스
+</button>
+</div>
+<div>
+        <div>
+            <p><b>01-1 코스 : 우도 - 올레 (휠체어 불가)</b></p>
+        </div>
+            <div>
+                <p>땅콩으로 유명한 우도는 푸른 초원과 검은 돌담 그리고 등대가 가장 제주다운 풍경을 연출한다. 우도 올레는 아름다운 우도의 절경을 온몸으로 만끽할 수 있는 코스다. 바닷길과 밭길, 푸른 초원과 우도봉 등 다양한 모습이 있다.
+                    </p>
+                <img src="./images/pin_restaurant2.png" alt="" class="pin_images">
+                <div class="restaurent">
+                    <div class="dkahffkd">
+                        <p class="rmfTl"><b>1. 섬소나이</b></p>
+                        <p>제주특별자치도 제주시 우도면 우도해안길 814</p>
+                        <img class="pictures" src="./images/1_1png" alt="">
+                        <img class="pictures" src="./images/1_2.png" alt="">
+                        <hr>
+                        <p class="rmfTl"><b>2. 블랑로쉐</b></p>
+                        <p>제주특별자치도 제주시 우도면 우도해안길 783</p>
+                        <img class="pictures" src="./images/1_3.png" alt="">
+                        <img class="pictures" src="./images/1_4.png" alt="">
+                        <hr>
+                        <p class="rmfTl"><b>3. 우도왕자이야기</b></p>
+                        <p>제주특별자치도 제주시 우도면 우도해안길 252</p>
+                        <img class="pictures" src="./images/1_5.png" alt="">
+                        <hr>
+                    </div>
+                </div>
+            <div>
+                <img src="./images/pin_hotel2.png" alt="" class="pin_images">
+                <div class="hotel">
+                    <div class="dkahffkd">
+                        <p class="rmfTl"><b>1. 전원민박</b></p>
+                        <p>제주특별자치도 제주시 우도면 우목길 104</p>
+                        <img class="pictures" src="./images/1h1.png" alt="">
+                        <img class="pictures" src="./images/1h2.png" alt="">
+                        <hr>
+                        <p class="rmfTl"><b>2. 동굴민박</b></p>
+                        <p>제주특별자치도 제주시 우도면 영일길 156-12</p>
+                        <img class="pictures" src="./images/1h3.png" alt="">
+                        <img class="pictures" src="./images/1h4.png" alt="">
+                        <hr>
+                        <p class="rmfTl"><b>3. 썬비치민박</b></p>
+                        <p>제주특별자치도 제주시 우도면 우도해안길 810</p>
+                        <img class="pictures" src="./images/1h5.png" alt="">
+                        <hr>
+                    </div>
+                </div>
+            </div>
+    </div>
+`
+    }
+
+    function course9change() {
+
+        let map33 = document.querySelector(".big_map");
+        const course9 = document.querySelector(".chart");
+
+
+        map33.src = "./images/low_map.png";
+
+        course9.innerHTML = `
 <div>
     <div>
 <button class="courselevel_btn" id="course_lowbtn" onclick="courselowchange()">
@@ -1504,38 +1836,48 @@ course9.innerHTML
     <img class="footprint" id="course_high" src="./images/footprint_high.png" alt="">
     상코스
 </button>
-</div>
-        <div>
-            <p><b>09 코스 : 대평 - 화순 올레 (휠체어 불가)</b></p>
-        </div>
-            <div>
-                <p>대평포구에서 시작해 몰질을 지나 군산오름으로 향한다. 하천과 동굴이 있는 안덕계곡으로 이어지는 코스다. 난이도는 상당히 높은 편이다.
-                    </p>
-            </div>
+<img src="./images/pin_restaurant2.png" alt="" class="pin_images">
                 <div class="restaurent">
-                    <img src="./images/pin_restaurant.png" alt="" class="pin_images">
-                    <div>
-                        <p>1.~식당</p>
+                    <div class="dkahffkd">
+                        <p class="rmfTl"><b>1. 화순한가네식당</b></p>
+                        <p>제주 서귀포시 안덕면 화순해안로 109</p>
+                        <img class="pictures" src="./images/9_1.png" alt="">
+                        <img class="pictures" src="./images/9_2.png" alt="">
+                        <hr>
+                        <p class="rmfTl"><b>2. 명물식당 212</b></p>
+                        <p>제주 서귀포시 안덕면 감산리 982-2</p>
+                        <img class="pictures" src="./images/9_3.png" alt="">
+                        <img class="pictures" src="./images/9_4.png" alt="">
+                        <hr>
+                        <p class="rmfTl"><b>3. 고은물식당</b></p>
+                        <p>제주 서귀포시 안덕면 화순해안로 110 하르방가든</p>
+                        <img class="pictures" src="./images/9_5.png" alt="">
+                        <img class="pictures" src="./images/9_6.png" alt="">
+                        <hr>
                     </div>
                 </div>
-            <div>
-                <div class="cafe">
-                    <img src="./images/pin_cafe.png" alt="" class="pin_images">
-                    <div>
-                        <p>1.~~카페</p>
-                    </div>
-                </div>
-            </div>
-            <div>
+                <img src="./images/pin_hotel2.png" alt="" class="pin_images">
                 <div class="hotel">
-                    <img src="./images/pin_Hotel.png" alt="" class="pin_images">
-                    <div>
-                        <p>1.~~숙소</p>
+                    <div class="dkahffkd">
+                        <p class="rmfTl"><b>1. 중문올레펜션</b></p>
+                        <p>제주특별자치도 서귀포시 안덕면 한밭로 61</p>
+                        <img class="pictures" src="./images/9_1.png" alt="">
+                        <img class="pictures" src="./images/9_2.png" alt="">
+                        <hr>
+                        <p class="rmfTl"><b>2. 에쿠스모텔 212</b></p>
+                        <p>제주특별자치도 서귀포시 안덕면 화순중앙로54번길 5</p>
+                        <img class="pictures" src="./images/9_3.png" alt="">
+                        <hr>
+                        <p class="rmfTl"><b>3. 가을에펜션 212</b></p>
+                        <p>제주 서귀포시 안덕면 화순중앙로123번길 7</p>
+                        <img class="pictures" src="./images/9_4.png" alt="">
+                        <img class="pictures" src="./images/9_5.png" alt="">
+                        <hr>
                     </div>
-                </div>
-            </div>
-    </div>
-`}
-
+</div>
+`
+    }
 </script>
+
+
 </html>
